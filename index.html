@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="dark">
+<title>Switch Browser Test</title>
+<style>
+:root{color-scheme:dark;font-family:system-ui,-apple-system,"Segoe UI",sans-serif}
+*{box-sizing:border-box}
+body{margin:0;min-height:100vh;background:#101820;color:#f4f7fa;padding:18px;display:grid;place-items:center}
+main{width:min(100%,620px);background:#1b2934;border:1px solid #3a4c58;border-radius:18px;padding:22px}
+h1{margin:0;font-size:clamp(1.5rem,5vw,2rem)}
+.lead{color:#b9c8d1;margin:6px 0 20px}
+.row{display:flex;justify-content:space-between;gap:12px;align-items:center;padding:13px 0;border-top:1px solid #354651}
+.status{font-weight:700;color:#f2d27a}
+.ok{color:#8ee0a5}
+button{font:inherit;font-weight:650;border:0;border-radius:12px;padding:14px 18px;background:#35b8d4;color:#07151c;min-height:48px;cursor:pointer}
+button:focus-visible{outline:3px solid white;outline-offset:3px}
+.panel{margin-top:18px;padding:15px;border-radius:12px;background:#263b49}
+small,.muted{color:#b9c8d1}
+#tapResult{min-height:1.5em;margin:10px 0 0}
+code{overflow-wrap:anywhere}
+</style>
+</head>
+<body>
+<main>
+  <h1>Switch Browser Test</h1>
+  <p class="lead">Ein einfacher, sicherer Kompatibilitätstest für die Switch-WebView.</p>
+
+  <div class="row"><span>HTML / Webseitenanzeige</span><span class="status ok">✓ Geladen</span></div>
+  <div class="row"><span>JavaScript</span><span id="js" class="status">Wird geprüft …</span></div>
+  <div class="row"><span>Bildschirmgröße</span><span id="screen" class="status">Wird geprüft …</span></div>
+  <div class="row"><span>Touch-Eingabe</span><span id="touch" class="status">Bitte testen</span></div>
+  <div class="row"><span>Online-Verbindung</span><span class="status">Nicht automatisch geprüft</span></div>
+
+  <section class="panel">
+    <strong>Touch-Test</strong>
+    <p class="muted">Tippe auf die Schaltfläche. Wenn sich die Meldung ändert, funktionieren Berührung und JavaScript.</p>
+    <button id="tap" type="button">Hier tippen</button>
+    <p id="tapResult" aria-live="polite">Noch nicht getestet.</p>
+  </section>
+
+  <section class="panel">
+    <strong>Ergebnis</strong>
+    <p id="summary" class="muted">Bitte führe den Touch-Test aus. Diese Seite nimmt keine Änderungen an der Konsole vor.</p>
+  </section>
+
+  <p><small>Offline-fähige Testseite · Keine externen Skripte · Keine Datenübertragung · Kein Exploit</small></p>
+</main>
+<script>
+(function(){
+  var js=document.getElementById('js');
+  js.textContent='✓ Aktiv'; js.className='status ok';
+  document.getElementById('screen').textContent=window.innerWidth+' × '+window.innerHeight+' CSS-Pixel';
+  var btn=document.getElementById('tap');
+  var count=0;
+  btn.addEventListener('click',function(){
+    count++;
+    document.getElementById('touch').textContent='✓ Eingabe erkannt';
+    document.getElementById('touch').className='status ok';
+    document.getElementById('tapResult').textContent='Erfolgreich! '+count+' Klick(s) erkannt.';
+    document.getElementById('summary').textContent='HTML, JavaScript und die Schaltflächen-Eingabe funktionieren in diesem Browser.';
+  });
+})();
+</script>
+</body>
+</html>
